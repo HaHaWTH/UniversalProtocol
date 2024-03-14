@@ -32,4 +32,34 @@ public class PacketUtil {
         // 将收集到的字节数据转换为数组并返回
         return out.toByteArray();
     }
+
+    // 读取变长整数（VarInt）的逻辑
+    public static int readVarInt(ByteBuffer buffer) {
+        int value = 0;
+        int position = 0;
+        byte currentByte;
+
+        do {
+            currentByte = buffer.get();
+            value |= (currentByte & 0x7F) << position;
+
+            if (position > 35) {
+                throw new IllegalArgumentException("VarInt is too big");
+            }
+            position += 7;
+        } while ((currentByte & 0x80) == 0x80);
+
+        return value;
+    }
+
+    // 写入变长整数（VarInt）到ByteBuffer的逻辑
+    public static void writeVarInt(ByteBuffer buffer, int value) {
+        while ((value & 0xFFFFFF80) != 0L) {
+            buffer.put((byte) ((value & 0x7F) | 0x80));
+            value >>>= 7;
+        }
+        buffer.put((byte) (value & 0x7F));
+    }
+
+
 }
