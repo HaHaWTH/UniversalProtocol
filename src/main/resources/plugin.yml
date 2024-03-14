@@ -1,0 +1,9 @@
+name: UniversalProtocol
+version: '${project.version}'
+main: io.wdsj.universalprotocol.UniversalProtocol
+api-version: '1.13'
+load: STARTUP
+folia-supported: true
+authors:
+  - HaHaWTH
+  - 0D00_0721
