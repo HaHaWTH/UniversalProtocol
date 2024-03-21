@@ -4,12 +4,15 @@ import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import com.github.Anon8281.universalScheduler.UniversalScheduler;
 import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import io.wdsj.universalprotocol.channel.Channels;
 import io.wdsj.universalprotocol.listener.AppleSkinProtocolListener;
+import io.wdsj.universalprotocol.listener.AsteorBarProtocolListener;
 import io.wdsj.universalprotocol.listener.ChatImageProtocolListener;
 import io.wdsj.universalprotocol.listener.XaeroMapProtocolListener;
 import io.wdsj.universalprotocol.setting.Settings;
 import io.wdsj.universalprotocol.task.AppleSkinSyncTask;
+import io.wdsj.universalprotocol.task.AsteorBarSyncTask;
 import io.wdsj.universalprotocol.util.MessengerUtil;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -30,6 +33,7 @@ public final class UniversalProtocol extends JavaPlugin {
         return scheduler;
     }
     public static AppleSkinSyncTask ASTask;
+    public static MyScheduledTask AsteorTask;
     public static SettingsManager settings;
     @Override
     public void onLoad() {
@@ -66,17 +70,26 @@ public final class UniversalProtocol extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new XaeroMapProtocolListener(), this);
             getLogger().info("XaeroMap protocol registered.");
         }
+        if (settings.getProperty(Settings.ASTEOR_BAR_PROTOCOL)) {
+            MessengerUtil.registerOut(Channels.AsteorBar.CHANNEL_NETWORK);
+            MessengerUtil.registerIn(Channels.AsteorBar.CHANNEL_NETWORK, new AsteorBarProtocolListener());
+            getServer().getPluginManager().registerEvents(new AsteorBarProtocolListener(), this);
+            AsteorTask = getScheduler().runTaskTimer(new AsteorBarSyncTask(), 0L, 1L);
+            getLogger().info("AsteorBar protocol registered.");
+        }
         int pluginId = 21326;
         Metrics metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new SimplePie("appleskin_protocol", () -> settings.getProperty(Settings.APPLE_SKIN_PROTOCOL) ? "Enabled" : "Disabled"));
         metrics.addCustomChart(new SimplePie("chatimage_protocol", () -> settings.getProperty(Settings.CHAT_IMAGE_PROTOCOL) ? "Enabled" : "Disabled"));
         metrics.addCustomChart(new SimplePie("xaeromap_protocol", () -> settings.getProperty(Settings.XAERO_MAP_PROTOCOL) ? "Enabled" : "Disabled"));
+        metrics.addCustomChart(new SimplePie("asteorbar_protocol", () -> settings.getProperty(Settings.ASTEOR_BAR_PROTOCOL) ? "Enabled" : "Disabled"));
         getLogger().info("UniversalProtocol enabled.");
     }
 
     @Override
     public void onDisable() {
         if (ASTask != null) ASTask.cancel();
+        if (AsteorTask != null) AsteorTask.cancel();
         HandlerList.unregisterAll(this);
     }
 }

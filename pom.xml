@@ -46,8 +46,20 @@
                                     <shadedPattern>io.wdsj.universalprotocol.libs.UniversalScheduler</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>com.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>io.wdsj.asw.libs.packetevents.impl</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>io.github.retrooper.packetevents</pattern>
+                                    <shadedPattern>io.wdsj.asw.libs.packetevents.api</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>ch.jalu.configme</pattern>
                                     <shadedPattern>io.wdsj.universalprotocol.libs.configme</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori</pattern>
+                                    <shadedPattern>io.wdsj.universalprotocol.libs.packetevents.kyori</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
@@ -87,6 +99,10 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
         <repository>
             <id>sonatype</id>

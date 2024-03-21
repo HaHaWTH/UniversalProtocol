@@ -14,4 +14,8 @@ public class Channels {
         public static final String XAERO_MINIMAP_CHANNEL = "xaerominimap:main";
         public static final String XAERO_WORLDMAP_CHANNEL = "xaeroworldmap:main";
     }
+
+    public static class AsteorBar {
+        public static final String CHANNEL_NETWORK = "asteorbar:network";
+    }
 }

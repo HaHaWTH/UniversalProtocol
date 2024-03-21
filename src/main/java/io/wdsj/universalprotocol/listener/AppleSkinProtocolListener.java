@@ -1,6 +1,5 @@
 package io.wdsj.universalprotocol.listener;
 
-import io.wdsj.universalprotocol.task.AppleSkinSyncTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -11,6 +11,9 @@ public class Settings implements SettingsHolder {
     @Comment({"Enable AppleSkin Protocol",
             "是否启用AppleSkin协议支持"})
     public static final Property<Boolean> APPLE_SKIN_PROTOCOL = newProperty("appleSkin.appleSkinProtocol", true);
+    @Comment({"Enable AsteorBar Protocol",
+            "是否启用AsteorBar协议支持"})
+    public static final Property<Boolean> ASTEOR_BAR_PROTOCOL = newProperty("asteorBar.asteorBarProtocol", true);
     @Comment({"Enable ChatImage Protocol",
             "是否启用ChatImage协议支持"})
     public static final Property<Boolean> CHAT_IMAGE_PROTOCOL = newProperty("chatImage.chatImageProtocol", true);
