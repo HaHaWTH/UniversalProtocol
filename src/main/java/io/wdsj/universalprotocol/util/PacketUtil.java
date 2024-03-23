@@ -38,7 +38,7 @@ public class PacketUtil {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         // 预先定义ByteBuffer的大小，根据实际情况调整
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
 
         // 使用consumer处理ByteBuffer
         consumer.accept(byteBuffer);
