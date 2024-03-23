@@ -4,6 +4,7 @@ import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import io.wdsj.universalprotocol.UniversalProtocol;
 import io.wdsj.universalprotocol.channel.Channels;
 import io.wdsj.universalprotocol.listener.AsteorBarProtocolListener;
+import io.wdsj.universalprotocol.util.PacketUtil;
 import org.bukkit.entity.Player;
 
 import java.nio.ByteBuffer;
@@ -19,11 +20,19 @@ public class AsteorBarSyncTask extends UniversalRunnable {
             float saturation = player.getSaturation();
             float oldExhaustion = EXHAUSTION_MAP.getOrDefault(player, exhaustion);
             float oldSaturation = SATURATION_MAP.getOrDefault(player, saturation);
+            byte[] exhaustPacket = PacketUtil.createPayloadPacket(buf -> {
+                buf.put((byte) 0);
+                buf.putFloat(exhaustion);
+            }, 1 + Float.BYTES);
+            byte[] saturationPacket = PacketUtil.createPayloadPacket(buf -> {
+                buf.put((byte) 1);
+                buf.putFloat(saturation);
+            }, 1 + Float.BYTES);
             if (Math.abs(oldExhaustion - exhaustion) >= 0.01f) {
-                player.sendPluginMessage(UniversalProtocol.getInstance(), Channels.AsteorBar.CHANNEL_NETWORK, ByteBuffer.allocate(1 + Float.BYTES).put((byte) 0).putFloat(exhaustion).array());
+                player.sendPluginMessage(UniversalProtocol.getInstance(), Channels.AsteorBar.CHANNEL_NETWORK, exhaustPacket);
             }
             if (Math.abs(oldSaturation - saturation) >= 0.01f) {
-                player.sendPluginMessage(UniversalProtocol.getInstance(), Channels.AsteorBar.CHANNEL_NETWORK, ByteBuffer.allocate(1 + Float.BYTES).put((byte) 1).putFloat(saturation).array());
+                player.sendPluginMessage(UniversalProtocol.getInstance(), Channels.AsteorBar.CHANNEL_NETWORK, saturationPacket);
             }
         }
     }
